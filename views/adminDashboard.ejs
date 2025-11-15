@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Admin Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-[#fafafa] font-[Segoe_UI,Arial,sans-serif] text-gray-900 flex flex-col">
+
+  <!-- Navbar -->
+  <nav class="w-full sticky top-0 z-20 bg-white/70 backdrop-blur-md border-b border-gray-200">
+    <div class="max-w-6xl mx-auto flex justify-between items-center py-6 px-6 text-sm font-semibold uppercase tracking-wider">
+      <div class="flex items-center space-x-8">
+        <h1 class="text-2xl font-bold tracking-wide">Admin Dashboard</h1>
+        <a href="/home" class="text-gray-700 hover:text-black transition-transform transform hover:scale-105">Home</a>
+        <a href="/login" class="text-gray-700 hover:text-black transition-transform transform hover:scale-105">Login</a>
+        <a href="/signup" class="text-gray-700 hover:text-black transition-transform transform hover:scale-105">Sign Up</a>
+      </div>
+      <form action="/logout" method="get">
+        <button 
+          type="submit"
+          class="bg-black text-white font-semibold px-4 py-2 rounded-full hover:bg-gray-900 hover:scale-105 active:scale-95 transition shadow-lg"
+        >
+          Logout
+        </button>
+      </form>
+    </div>
+  </nav>
+
+  <!-- Main Section -->
+  <main class="flex-grow flex justify-center py-10 px-6">
+    <section class="w-full max-w-6xl bg-white/80 backdrop-blur-md rounded-2xl shadow-xl border border-gray-100 p-8">
+
+      <!-- Header -->
+      <div class="flex justify-between items-center mb-6 pb-3 border-b border-gray-200">
+        <h2 class="text-xl font-semibold text-gray-900">User Management</h2>
+
+         <!-- Search Form -->
+        <form method="GET" action="/admin/dashboard" class="flex items-center space-x-2">
+          <input
+            type="text"
+            name="search"
+            value="<%= searchQuery %>"
+            placeholder="Search by name or email"
+            class="border border-gray-300 rounded-full px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-gray-400"
+          />
+          <button
+            type="submit"
+            class="bg-gray-900 text-white px-4 py-1.5 rounded-full text-sm hover:bg-gray-800 transition"
+          >
+            Search
+          </button>
+      </div>
+        
+      <!-- Table -->
+      <div class="overflow-x-auto">
+        <table class="min-w-full border border-gray-200 rounded-lg text-sm">
+          <thead class="bg-gray-900 text-white rounded-t-lg">
+            <tr>
+              <th class="py-3 px-4 text-left font-semibold">S.No</th>
+              <th class="py-3 px-4 text-left font-semibold">Name</th>
+              <th class="py-3 px-4 text-left font-semibold">Email</th>
+              <th class="py-3 px-4 text-left font-semibold">Role</th>
+              <th class="py-3 px-4 text-center font-semibold">Actions</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-100">
+            <% users.forEach((user, index) => { %>
+              <tr class="hover:bg-gray-50 transition">
+                <td class="py-3 px-4 font-medium text-gray-800"><%= index + 1 %></td>
+                <td class="py-3 px-4"><%= user.name %></td>
+                <td class="py-3 px-4"><%= user.email %></td>
+                <td class="py-3 px-4 capitalize"><%= user.role %></td>
+                <td class="py-3 px-4 text-center space-x-2">
+                  <button class="bg-gray-100 hover:bg-gray-200 text-gray-800 px-3 py-1.5 rounded-full transition font-medium border border-gray-200">
+                    <a href="/admin/edit/<%= user._id %>">Edit</a>
+                  </button>
+                  <!-- Block / Unblock Button -->
+                  <% if (user.isBlocked) { %>
+                    <a href="/admin/block/<%= user._id %>"
+                      onclick="return confirm('Are you sure you want to unblock this user?')"
+                      class="bg-green-100 hover:bg-green-200 text-green-700 px-3 py-1.5 rounded-full transition font-medium border border-green-200 inline-block">
+                      Unblock
+                    </a>
+                  <% } else { %>
+                    <a href="/admin/block/<%= user._id %>"
+                      onclick="return confirm('Are you sure you want to block this user?')"
+                      class="bg-red-100 hover:bg-red-200 text-red-700 px-3 py-1.5 rounded-full transition font-medium border border-red-200 inline-block">
+                      Block
+                    </a>
+                  <% } %>
+                </td>
+                </td>
+              </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full text-center text-gray-400 text-sm py-6 border-t border-gray-200">
+    © <%= new Date().getFullYear() %> Admin Dashboard — Built with TailwindCSS
+  </footer>
+
+</body>
+</html>
