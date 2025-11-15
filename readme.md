@@ -29,8 +29,8 @@ Node.js, Express.js, MongoDB (Mongoose), TailwindCSS, express-session, bcrypt
 ### Step 1: Clone the repository
 
 ```
-git clone https://github.com/YOUR-USERNAME/YOUR-REPO.git
-cd YOUR-REPO
+git clone https://github.com/rithinbaijupb/admin-panel-node.git
+cd admin-panel-node
 ```
 
 ### Step 2: Install dependencies
